@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 //JComponent就属于swing
@@ -15,6 +16,7 @@ public class GameClient extends JComponent {
     private List<Tank> enemyTanks;
 
     private List<Wall> walls;
+
     //初始化
     public GameClient() {
         //创建界面
@@ -25,6 +27,12 @@ public class GameClient extends JComponent {
 
         //敌方坦克
         this.enemyTanks = new ArrayList<>(12);
+        this.walls = Arrays.asList(
+                new Wall(200, 140, true, 15),
+                new Wall(200, 540, true, 15),
+                new Wall(100, 80, false, 15),
+                new Wall(700, 80, false, 15)
+        );
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
                 this.enemyTanks.add(new Tank(200 + 120 * j, 400 + 40 * i, Direction.UP,
@@ -37,9 +45,14 @@ public class GameClient extends JComponent {
     //似乎这个会一直自动调用?
     @Override
     protected void paintComponent(Graphics g) {
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, 800, 600);
         playerTank.draw(g);
         for (Tank tank : enemyTanks) {
             tank.draw(g);
+        }
+        for (Wall wall : walls) {
+            wall.draw(g);
         }
     }
 
