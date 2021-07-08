@@ -4,19 +4,33 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 //JComponent就属于swing
 public class GameClient extends JComponent {
     //定义玩家控制的坦克
     private Tank playerTank;
+    //定义敌方坦克
+    private List<Tank> enemyTanks;
 
-
+    private List<Wall> walls;
     //初始化
     public GameClient() {
-        //默认生成位置在400,100处,朝下
-        this.playerTank = new Tank(400,100,Direction.DOWN);
         //创建界面
         this.setPreferredSize(new Dimension(800, 600));
+
+        //我方坦克,默认生成位置在400,100处,朝下
+        this.playerTank = new Tank(400, 100, Direction.DOWN);
+
+        //敌方坦克
+        this.enemyTanks = new ArrayList<>(12);
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                this.enemyTanks.add(new Tank(200 + 120 * j, 400 + 40 * i, Direction.UP,
+                        true));
+            }
+        }
     }
 
     //画一些东西用的,直接调用的
@@ -24,6 +38,9 @@ public class GameClient extends JComponent {
     @Override
     protected void paintComponent(Graphics g) {
         playerTank.draw(g);
+        for (Tank tank : enemyTanks) {
+            tank.draw(g);
+        }
     }
 
     public static void main(String[] args) {
@@ -50,6 +67,7 @@ public class GameClient extends JComponent {
             public void keyPressed(KeyEvent e) {
                 client.playerTank.keyPressed(e);
             }
+
             @Override
             public void keyReleased(KeyEvent e) {
                 client.playerTank.keyReleased(e);
