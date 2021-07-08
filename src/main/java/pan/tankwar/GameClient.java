@@ -2,7 +2,6 @@ package pan.tankwar;
 
 import javax.swing.*;
 import java.awt.*;
-//shishi
 //JComponent就属于swing
 public class GameClient extends JComponent {
     public GameClient() {
